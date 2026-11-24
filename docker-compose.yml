@@ -1,0 +1,127 @@
+name: nasa-space-app
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NASA Space App Monorepo Docker Compose
+# Services: backend (FastAPI + AI) · postgres (16 + PostGIS 3.4) · redis (7) · frontend
+#
+# Usage:
+#   docker compose up -d                  # Start all services
+#   docker compose up -d --build          # Rebuild images first
+#   docker compose up -d --build backend  # Rebuild a specific service
+#   docker compose logs -f backend        # Tail backend logs
+#   docker compose down                   # Stop all
+#   docker compose down -v                # Stop + delete volumes (reset DB)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Shared environment block for the backend
+x-app-env: &app-env
+  APP_ENV: development
+  APP_PORT: "8000"
+  LOG_FORMAT: json
+  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+  # Credentials come from the root .env (see .env.example); compose fails fast if missing
+  DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-nasa_space_app}
+  REDIS_URL: redis://redis:6379/0
+  # Lightweight processed data is bundled in backend-nasa/datasets/processed.
+  # Override this only when mounting a larger fieldshift-data-kit output.
+  PROCESSED_DIR: /app/datasets/processed
+
+services:
+
+  backend:
+    container_name: nasa-space-app-backend
+    build:
+      context: ./backend-nasa
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      <<: *app-env
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - nasa-space-app-net
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\" || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 30s
+
+  postgres:
+    container_name: nasa-space-app-postgres
+    # PostGIS image (PostgreSQL 16 + PostGIS 3.4). The postgis extension is
+    # enabled automatically in POSTGRES_DB on first initialization.
+    image: postgis/postgis:16-3.4-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-nasa_space_app}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nasa-space-app-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  redis:
+    container_name: nasa-space-app-redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: >
+      redis-server
+      --maxmemory 128mb
+      --maxmemory-policy allkeys-lru
+      --save 60 1
+      --appendonly no
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - nasa-space-app-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+  frontend:
+    container_name: nasa-space-app-frontend
+    build:
+      context: ./frontend-nasa
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:${BACKEND_PORT:-8000}}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - nasa-space-app-net
+
+networks:
+  nasa-space-app-net:
+    name: nasa-space-app-net
+    driver: bridge
+
+volumes:
+  postgres_data:
+    name: nasa-space-app-postgres-data
+  redis_data:
+    name: nasa-space-app-redis-data
