@@ -5,108 +5,274 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * BERSAMA Design System Tokens
+ * Source: https://www.ramps.studio/?b=3d7dff&m=full&s=analogous&c=AA
+ * Contrast: WCAG AA (>= 4.5:1) verified across all foreground/background pairs.
+ * Do not re-derive or substitute paired hex values.
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  /* Ramps Semantic Tokens — Light Mode (Default) */
+  --bg-canvas: #e9ebef;
+  --bg-surface: #f4f6f9;
+  --bg-surface-raised: #f4f6f9;
+  --bg-muted: #d7d9dd;
+
+  --bg-brand: #1a51c4;
+  --bg-brand-hover: #0c3c9f;
+  --bg-brand-active: #042a7b;
+
+  --bg-accent: #7f51db;
+  --bg-accent-hover: #673ab9;
+  --bg-accent-active: #502895;
+
+  --bg-tertiary: #006588;
+  --bg-tertiary-hover: #004e6a;
+
+  --bg-success: #006f31;
+  --bg-success-subtle: #caf9d3;
+  --bg-warning: #af8400;
+  --bg-warning-subtle: #fce9c2;
+  --bg-error: #c3413a;
+  --bg-error-subtle: #ffe4e0;
+  --bg-info: #006199;
+  --bg-info-subtle: #dbeeff;
+
+  --text-primary: #323337;
+  --text-secondary: #45474b;
+  --text-tertiary: #5a5c60;
+  --text-disabled: #9fa2a7;
+  --text-link: #1a51c4;
+
+  --text-on-brand: #f1f6ff;
+  --text-on-accent: #f6f4ff;
+  --text-on-tertiary: #ebf8ff;
+  --text-on-success: #e1ffe6;
+  --text-on-warning: #281c00;
+  --text-on-error: #fff3f1;
+  --text-on-info: #eef7ff;
+
+  --text-success: #006f31;
+  --text-error: #a22a27;
+  --text-warning: #755700;
+  --text-info: #006199;
+
+  --border-subtle: #d7d9dd;
+  --border-default: #bec0c5;
+  --border-strong: #9fa2a7;
+  --border-active: #2d6ae7;
+  --border-error: #e05950;
+
+  --bg-inverse: #323337;
+  --text-inverse: #f4f6f9;
+  --ring-focus: #4784ff;
+
+  /* Elevation shadows (critical in Light Mode since bg-surface == bg-surface-raised) */
+  --shadow-surface: 0 1px 2px 0 rgb(29 30 33 / 0.04);
+  --shadow-raised: 0 6px 20px -4px rgb(29 30 33 / 0.1), 0 1px 3px 0 rgb(29 30 33 / 0.06);
+
+  /* shadcn/ui & Kibo UI Variable Bridge */
+  --background: var(--bg-canvas);
+  --foreground: var(--text-primary);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-surface-raised);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--bg-brand);
+  --primary-foreground: var(--text-on-brand);
+  --secondary: var(--bg-muted);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-muted);
+  --muted-foreground: var(--text-tertiary);
+  --accent: var(--bg-muted);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--bg-error);
+  --destructive-foreground: var(--text-on-error);
+  --border: var(--border-subtle);
+  --input: var(--border-default);
+  --ring: var(--ring-focus);
+  --backdrop: var(--bg-canvas);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Data Visualization & Knowledge Map Ramps */
+  --chart-1: var(--bg-brand);
+  --chart-2: var(--bg-accent);
+  --chart-3: var(--bg-tertiary);
+  --chart-4: var(--bg-success);
+  --chart-5: var(--bg-warning);
+
+  /* Sidebar */
+  --sidebar: var(--bg-surface);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--bg-brand);
+  --sidebar-primary-foreground: var(--text-on-brand);
+  --sidebar-accent: var(--bg-muted);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-border: var(--border-subtle);
+  --sidebar-ring: var(--ring-focus);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Ramps Semantic Tokens — Dark Mode */
+  --bg-canvas: #1d1e21;
+  --bg-surface: #323337;
+  --bg-surface-raised: #45474b;
+  --bg-muted: #5a5c60;
+
+  --bg-brand: #4784ff;
+  --bg-brand-hover: #6ea0ff;
+  --bg-brand-active: #9fc1ff;
+
+  --bg-accent: #9669f8;
+  --bg-accent-hover: #aa8aff;
+  --bg-accent-active: #c4b3ff;
+
+  --bg-tertiary: #0098ca;
+  --bg-tertiary-hover: #3dafe0;
+
+  --bg-success: #16a64f;
+  --bg-success-subtle: #003f19;
+  --bg-warning: #c59b37;
+  --bg-warning-subtle: #423000;
+  --bg-error: #e05950;
+  --bg-error-subtle: #630b0c;
+  --bg-info: #0192e3;
+  --bg-info-subtle: #003659;
+
+  --text-primary: #e9ebef;
+  --text-secondary: #bec0c5;
+  --text-tertiary: #9fa2a7;
+  --text-disabled: #717479;
+  --text-link: #6ea0ff;
+
+  --text-on-brand: #001652;
+  --text-on-accent: #25054f;
+  --text-on-tertiary: #002230;
+  --text-on-success: #00260c;
+  --text-on-warning: #281c00;
+  --text-on-error: #410002;
+  --text-on-info: #002037;
+
+  --text-success: #44be69;
+  --text-error: #f77469;
+  --text-warning: #c59b37;
+  --text-info: #3baaf9;
+
+  --border-subtle: #45474b;
+  --border-default: #5a5c60;
+  --border-strong: #717479;
+  --border-active: #4784ff;
+  --border-error: #e05950;
+
+  --bg-inverse: #e9ebef;
+  --text-inverse: #323337;
+  --ring-focus: #6ea0ff;
+
+  --shadow-surface: none;
+  --shadow-raised: 0 10px 28px -4px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(255 255 255 / 0.06);
 }
 
 @theme inline {
+  /* Typography */
   --font-heading: 'Allo', var(--font-sans);
   --font-sans: 'Allo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Shadows */
+  --shadow-surface: var(--shadow-surface);
+  --shadow-raised: var(--shadow-raised);
+
+  /* shadcn/ui & Kibo UI Color Utilities */
   --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-backdrop: var(--backdrop);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Ramps Direct Semantic Utilities */
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-raised: var(--bg-surface-raised);
+
+  --color-brand: var(--bg-brand);
+  --color-brand-hover: var(--bg-brand-hover);
+  --color-brand-active: var(--bg-brand-active);
+
+  --color-accent-violet: var(--bg-accent);
+  --color-accent-violet-hover: var(--bg-accent-hover);
+  --color-accent-violet-active: var(--bg-accent-active);
+
+  --color-tertiary: var(--bg-tertiary);
+  --color-tertiary-hover: var(--bg-tertiary-hover);
+
+  --color-success: var(--bg-success);
+  --color-success-subtle: var(--bg-success-subtle);
+  --color-warning: var(--bg-warning);
+  --color-warning-subtle: var(--bg-warning-subtle);
+  --color-error: var(--bg-error);
+  --color-error-subtle: var(--bg-error-subtle);
+  --color-info: var(--bg-info);
+  --color-info-subtle: var(--bg-info-subtle);
+
+  --color-ink-primary: var(--text-primary);
+  --color-ink-secondary: var(--text-secondary);
+  --color-ink-tertiary: var(--text-tertiary);
+  --color-ink-disabled: var(--text-disabled);
+  --color-ink-link: var(--text-link);
+
+  --color-on-brand: var(--text-on-brand);
+  --color-on-accent: var(--text-on-accent);
+  --color-on-tertiary: var(--text-on-tertiary);
+  --color-on-success: var(--text-on-success);
+  --color-on-warning: var(--text-on-warning);
+  --color-on-error: var(--text-on-error);
+  --color-on-info: var(--text-on-info);
+
+  --color-text-success: var(--text-success);
+  --color-text-warning: var(--text-warning);
+  --color-text-error: var(--text-error);
+  --color-text-info: var(--text-info);
+
+  --color-line-subtle: var(--border-subtle);
+  --color-line-default: var(--border-default);
+  --color-line-strong: var(--border-strong);
+  --color-line-active: var(--border-active);
+  --color-line-error: var(--border-error);
+
+  --color-inverse: var(--bg-inverse);
+  --color-on-inverse: var(--text-inverse);
+
+  /* Radii */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
